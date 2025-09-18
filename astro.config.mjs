@@ -7,10 +7,12 @@ import tailwindcss from '@tailwindcss/vite';
 
 // https://astro.build/config
 export default defineConfig({
+  site: 'https://todo.cwa.im',
   output: 'static',
   integrations: [react()],
 
   vite: {
     plugins: [tailwindcss()],
+    publicDir: 'public',
   },
 });
