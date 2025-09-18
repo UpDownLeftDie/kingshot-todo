@@ -17,7 +17,7 @@ A client-side web application to help Kingshot players optimize their daily in-g
 
 ### Prerequisites
 
-- Node.js 18+
+- Node.js 22+
 - npm or yarn
 
 ### Installation
@@ -62,7 +62,7 @@ The built files will be in the `dist` directory, ready for deployment to GitHub 
 
 ### Adding New Tasks
 
-Edit `src/data/tasks.json` to add new daily tasks or events:
+Edit `src/data/` files to add new daily tasks or events:
 
 ```json
 {
@@ -119,4 +119,5 @@ This app is designed to be deployed as a static site. It works perfectly with:
 ## License
 
 MIT License - feel free to use and modify as needed.
+
 # kingshot-todo

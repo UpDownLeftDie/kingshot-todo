@@ -1,0 +1,37 @@
+{
+  "name": "kingshot-daily-optimizer",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "A daily task tracker for Kingshot players to optimize their gameplay",
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "deploy": "npm run build && gh-pages -d dist"
+  },
+  "dependencies": {
+    "@astrojs/react": "^4.3.1",
+    "@types/react": "^19.1.13",
+    "@types/react-dom": "^19.1.9",
+    "astro": "^5.13.8",
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1"
+  },
+  "devDependencies": {
+    "@tailwindcss/vite": "^4.1.13",
+    "tailwindcss": "^4.1.13"
+  },
+  "keywords": [
+    "kingshot",
+    "todo",
+    "task-tracker",
+    "game-optimization",
+    "pwa",
+    "astro",
+    "react"
+  ],
+  "author": "Your Name",
+  "license": "MIT"
+}
