@@ -1,64 +1,383 @@
 import { type Task } from '../types/task';
 
-// Define task IDs as literal types to ensure consolidation works correctly
-export type DailyTaskId =
-  | 'terror-hunts'
-  | 'arena-battles'
-  | 'daily-quests'
-  | 'resource-gathering'
-  | 'alliance-donations';
-
-export type GameTaskId =
-  | DailyTaskId
-  | 'hunt-beasts'
-  | 'gather-resources'
-  | 'epic-recruitment'
-  | 'advanced-recruitment'
-  | 'beast-materials'
-  | 'save-intel-missions'
-  | 'send-gatherers'
-  | 'save-bison'
-  | 'train-troops';
-
 export const dailyTasks: Task[] = [
+  // Alliance Contributions - multiple tiers that auto-consolidate
   {
-    id: 'terror-hunts' as const,
-    name: '${count} Terror Hunts',
-    description: 'Complete ${count} terror hunt missions',
-    category: 'combat',
+    id: 'alliance-contributions-5',
+    type: 'alliance-contributions',
+    name: 'Make ${count} Alliance Contributions',
+    description: 'Contribute to your alliance 5 times',
+    category: 'alliance',
+    priority: 'medium',
+    count: 5,
+    points: 5,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'alliance-contributions-20',
+    type: 'alliance-contributions',
+    name: 'Make ${count} Alliance Contributions',
+    description: 'Contribute to your alliance 20 times',
+    category: 'alliance',
+    priority: 'medium',
+    count: 20,
+    points: 10,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'alliance-contributions-40',
+    type: 'alliance-contributions',
+    name: 'Make ${count} Alliance Contributions',
+    description: 'Contribute to your alliance 40 times',
+    category: 'alliance',
+    priority: 'medium',
+    count: 40,
+    points: 15,
+    implies: ['daily-login'],
+  },
+
+  // Hero Recruitment
+  {
+    id: 'recruit-heroes-1',
+    type: 'recruit-heroes',
+    name: 'Recruit ${count} Hero',
+    description: 'Recruit 1 hero using recruitment system',
+    category: 'heroes',
+    priority: 'high',
+    count: 1,
+    points: 10,
+    implies: ['daily-login'],
+  },
+
+  // Intel Missions
+  {
+    id: 'intel-missions-10',
+    type: 'intel-missions',
+    name: 'Carry out ${count} Intel Missions',
+    description: 'Complete 10 intelligence missions',
+    category: 'missions',
     priority: 'high',
     count: 10,
+    points: 30,
+    implies: ['daily-login'],
   },
+
+  // Online Rewards
   {
-    id: 'arena-battles' as const,
-    name: '${count} Arena Battles',
-    description: 'Participate in ${count} arena battles',
-    category: 'combat',
-    priority: 'high',
-    count: 5,
-  },
-  {
-    id: 'daily-quests' as const,
-    name: 'Complete ${count} Daily Quests',
-    description: 'Finish ${count} available daily quests',
-    category: 'quests',
-    priority: 'medium',
+    id: 'online-rewards-3',
+    type: 'online-rewards',
+    name: 'Claim ${count} Online Rewards',
+    description: 'Claim 3 online reward chests',
+    category: 'rewards',
+    priority: 'low',
     count: 3,
+    points: 5,
+    implies: ['daily-login'],
   },
+
+  // Resource Collection - Bread
   {
-    id: 'resource-gathering' as const,
-    name: 'Collect ${count} Resources',
-    description:
-      'Gather ${count} resources from gathering points (${remaining} remaining)',
+    id: 'collect-bread-50k',
+    type: 'collect-bread',
+    name: 'Collect ${count} Bread',
+    description: 'Gather 50,000 bread from farms or other sources',
     category: 'resources',
     priority: 'medium',
-    count: 8,
+    count: 50000,
+    points: 5,
+    implies: ['daily-login', 'gather-times'],
+  },
+
+  // Resource Collection - Wood
+  {
+    id: 'collect-wood-50k',
+    type: 'collect-wood',
+    name: 'Collect ${count} Wood',
+    description: 'Gather 50,000 wood from forests or other sources',
+    category: 'resources',
+    priority: 'medium',
+    count: 50000,
+    points: 5,
+    implies: ['daily-login', 'gather-times'],
+  },
+
+  // Resource Collection - Iron
+  {
+    id: 'gather-iron-3k',
+    type: 'gather-iron',
+    name: 'Gather ${count} Iron',
+    description: 'Mine 3,000 iron from iron deposits',
+    category: 'resources',
+    priority: 'medium',
+    count: 3000,
+    points: 5,
+    implies: ['daily-login', 'gather-times'],
+  },
+
+  // Resource Collection - Stone
+  {
+    id: 'mine-stone-50k',
+    type: 'mine-stone',
+    name: 'Mine ${count} Stone',
+    description: 'Mine 50,000 stone from quarries',
+    category: 'resources',
+    priority: 'medium',
+    count: 50000,
+    points: 5,
+    implies: ['daily-login', 'gather-times'],
+  },
+
+  // Building Upgrades
+  {
+    id: 'upgrade-buildings-1',
+    type: 'upgrade-buildings',
+    name: 'Upgrade ${count} Building',
+    description: 'Upgrade any building in your city',
+    category: 'construction',
+    priority: 'high',
+    count: 1,
+    points: 20,
+    implies: ['daily-login'],
+  },
+
+  // Technology Research
+  {
+    id: 'research-technology-1',
+    type: 'research-technology',
+    name: 'Research ${count} Technology',
+    description: 'Complete research on 1 technology',
+    category: 'research',
+    priority: 'high',
+    count: 1,
+    points: 20,
+    implies: ['daily-login'],
+  },
+
+  // Gathering Times - multiple tiers
+  {
+    id: 'gather-1-time',
+    type: 'gather-times',
+    name: 'Gather ${count} Time',
+    description: 'Send gatherers out at least once',
+    category: 'resources',
+    priority: 'low',
+    count: 1,
+    points: 5,
+    implies: ['daily-login'],
   },
   {
-    id: 'alliance-donations' as const,
-    name: 'Alliance Donations',
-    description: 'Make alliance donations',
+    id: 'gather-2-times',
+    type: 'gather-times',
+    name: 'Gather ${count} Times',
+    description: 'Send gatherers out 2 times',
+    category: 'resources',
+    priority: 'low',
+    count: 2,
+    points: 5,
+    implies: ['daily-login'],
+  },
+
+  // Arena Challenges - multiple tiers
+  {
+    id: 'arena-challenge-1',
+    type: 'arena-challenges',
+    name: 'Fight in ${count} Arena Challenge',
+    description: 'Participate in 1 arena challenge',
+    category: 'combat',
+    priority: 'medium',
+    count: 1,
+    points: 10,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'arena-challenge-5',
+    type: 'arena-challenges',
+    name: 'Fight in ${count} Arena Challenges',
+    description: 'Participate in 5 arena challenges',
+    category: 'combat',
+    priority: 'medium',
+    count: 5,
+    points: 25,
+    implies: ['daily-login'],
+  },
+
+  // Pet Adventure
+  {
+    id: 'pet-adventure-4',
+    type: 'pet-adventure',
+    name: 'Pet Adventure ${count} Times',
+    description: 'Dispatch pets to hunt for treasure 4 times in Pet Adventure',
+    category: 'pets',
+    priority: 'medium',
+    count: 4,
+    points: 10,
+    implies: ['daily-login'],
+  },
+
+  // Daily Login
+  {
+    id: 'daily-login-1',
+    type: 'daily-login',
+    name: 'Daily Login',
+    description: 'Log into the game daily',
+    category: 'login',
+    priority: 'high',
+    count: 1,
+    points: 10,
+  },
+
+  // Alliance Help - multiple tiers
+  {
+    id: 'alliance-help-1',
+    type: 'alliance-help',
+    name: 'Alliance Help ${count} Time',
+    description: 'Take part in Alliance Help 1 time',
     category: 'alliance',
     priority: 'low',
+    count: 1,
+    points: 5,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'alliance-help-5',
+    type: 'alliance-help',
+    name: 'Alliance Help ${count} Times',
+    description: 'Take part in Alliance Help 5 times',
+    category: 'alliance',
+    priority: 'low',
+    count: 5,
+    points: 10,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'alliance-help-20',
+    type: 'alliance-help',
+    name: 'Alliance Help ${count} Times',
+    description: 'Take part in Alliance Help 20 times',
+    category: 'alliance',
+    priority: 'medium',
+    count: 20,
+    points: 15,
+    implies: ['daily-login'],
+  },
+
+  // Military Training - Cavalry
+  {
+    id: 'train-cavalry-10',
+    type: 'train-cavalry',
+    name: 'Train ${count} Cavalry',
+    description: 'Train 10 cavalry units',
+    category: 'military',
+    priority: 'low',
+    count: 10,
+    points: 10,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'train-cavalry-30',
+    type: 'train-cavalry',
+    name: 'Train ${count} Cavalry',
+    description: 'Train 30 cavalry units',
+    category: 'military',
+    priority: 'medium',
+    count: 30,
+    points: 10,
+    implies: ['daily-login'],
+  },
+
+  // Military Training - Archers
+  {
+    id: 'train-archers-10',
+    type: 'train-archers',
+    name: 'Train ${count} Archers',
+    description: 'Train 10 archer units',
+    category: 'military',
+    priority: 'low',
+    count: 10,
+    points: 10,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'train-archers-30',
+    type: 'train-archers',
+    name: 'Train ${count} Archers',
+    description: 'Train 30 archer units',
+    category: 'military',
+    priority: 'medium',
+    count: 30,
+    points: 10,
+    implies: ['daily-login'],
+  },
+
+  // Military Training - Infantry
+  {
+    id: 'train-infantry-10',
+    type: 'train-infantry',
+    name: 'Train ${count} Infantry',
+    description: 'Train 10 infantry units',
+    category: 'military',
+    priority: 'low',
+    count: 10,
+    points: 10,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'train-infantry-30',
+    type: 'train-infantry',
+    name: 'Train ${count} Infantry',
+    description: 'Train 30 infantry units',
+    category: 'military',
+    priority: 'medium',
+    count: 30,
+    points: 10,
+    implies: ['daily-login'],
+  },
+
+  // Heal Soldiers
+  {
+    id: 'heal-soldiers-10',
+    type: 'heal-soldiers',
+    name: 'Heal ${count} Injured Soldiers',
+    description: 'Heal 10 injured soldiers in the hospital',
+    category: 'military',
+    priority: 'low',
+    count: 10,
+    points: 10,
+    implies: ['daily-login'],
+  },
+
+  // Defeat Terror - multiple tiers
+  {
+    id: 'defeat-terror-1',
+    type: 'defeat-terror',
+    name: 'Defeat Terror ${count} Time',
+    description: 'Defeat Terror creatures 1 time',
+    category: 'combat',
+    priority: 'medium',
+    count: 1,
+    points: 10,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'defeat-terror-2',
+    type: 'defeat-terror',
+    name: 'Defeat Terror ${count} Times',
+    description: 'Defeat Terror creatures 2 times',
+    category: 'combat',
+    priority: 'medium',
+    count: 2,
+    points: 15,
+    implies: ['daily-login'],
+  },
+  {
+    id: 'defeat-terror-3',
+    type: 'defeat-terror',
+    name: 'Defeat Terror ${count} Times',
+    description: 'Defeat Terror creatures 3 times',
+    category: 'combat',
+    priority: 'high',
+    count: 3,
+    points: 20,
+    implies: ['daily-login'],
   },
 ];

@@ -1,5 +1,5 @@
 import { type Event } from '../../types/task';
-import { type GameTaskId } from '../daily-tasks';
+import { type TaskType } from '../../types/taskTypes';
 
 export const beastHuntEvent: Event = {
   id: 'beast-hunt-event',
@@ -8,7 +8,8 @@ export const beastHuntEvent: Event = {
   duration: 'limited',
   tasks: [
     {
-      id: 'hunt-beasts' as GameTaskId, // This will consolidate with other hunt-beasts tasks
+      id: 'hunt-beasts-15',
+      type: 'hunt-beasts' as TaskType, // This will consolidate with other hunt-beasts tasks
       name: 'Hunt ${count} Beasts',
       description: 'Hunt ${count} beasts during the event',
       category: 'combat',
@@ -16,7 +17,8 @@ export const beastHuntEvent: Event = {
       count: 15,
     },
     {
-      id: 'beast-materials' as GameTaskId,
+      id: 'beast-materials-1',
+      type: 'beast-materials' as TaskType,
       name: 'Collect Beast Materials',
       description: 'Gather materials from defeated beasts',
       category: 'resources',

@@ -1,5 +1,6 @@
 import React from 'react';
 import { type ConsolidatedTask } from '../types/task';
+import { getTaskIdentifier } from '../utils/taskUtils';
 import { TaskItem } from './TaskItem';
 
 interface TaskListProps {
@@ -48,16 +49,19 @@ export const TaskList: React.FC<TaskListProps> = ({
           </div>
 
           <div className="p-4">
-            {categoryTasks.map((task) => (
-              <TaskItem
-                key={task.id}
-                task={task}
-                isCompleted={isTaskCompleted(task.id)}
-                onToggle={() => onToggleTask(task.id)}
-                currentCount={getTaskCount(task.id)}
-                onCountChange={(count) => onCountChange(task.id, count)}
-              />
-            ))}
+            {categoryTasks.map((task) => {
+              const taskId = getTaskIdentifier(task);
+              return (
+                <TaskItem
+                  key={taskId}
+                  task={task}
+                  isCompleted={isTaskCompleted(taskId)}
+                  onToggle={() => onToggleTask(taskId)}
+                  currentCount={getTaskCount(taskId)}
+                  onCountChange={(count) => onCountChange(taskId, count)}
+                />
+              );
+            })}
           </div>
         </div>
       ))}

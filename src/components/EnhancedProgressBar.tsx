@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { type ConsolidatedTask } from '../types/task';
+import { getTaskIdentifier } from '../utils/taskUtils';
 
 interface ProgressSegment {
   taskId: string;
@@ -36,12 +37,13 @@ export const EnhancedProgressBar: React.FC<EnhancedProgressBarProps> = ({
 
   // Create segments for each task
   const segments: ProgressSegment[] = tasks.map((task, index) => {
-    const currentCount = getTaskCount(task.id);
+    const taskId = getTaskIdentifier(task);
+    const currentCount = getTaskCount(taskId);
     const taskPercentage = (currentCount / (task.count || 1)) * 100;
     const segmentWidth = (1 / tasks.length) * 100;
 
     return {
-      taskId: task.id,
+      taskId: taskId,
       taskName: task.name,
       sourceEvents: task.sourceEvents || [],
       maxCount: task.count || 0,
@@ -142,7 +144,7 @@ export const EnhancedProgressBar: React.FC<EnhancedProgressBarProps> = ({
 
       {/* Segment indicators */}
       <div className="mt-3 flex justify-between text-xs text-gray-500">
-        {segments.map((segment, index) => (
+        {segments.map((segment) => (
           <div
             key={segment.taskId}
             className="flex-1 text-center truncate px-1"

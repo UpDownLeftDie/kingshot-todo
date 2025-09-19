@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { type ConsolidatedTask, type TaskSource } from '../types/task';
+import { type ConsolidatedTask } from '../types/task';
 
 interface TaskCounterProps {
   task: ConsolidatedTask;
@@ -65,34 +65,34 @@ export const TaskCounter: React.FC<TaskCounterProps> = ({
                 const mouseX = ((e.clientX - rect.left) / rect.width) * 100;
 
                 // Find the closest marker to mouse position
-                let closestSource: TaskSource | null = null;
+                let closestSourceKey: string | null = null;
                 let closestDistance = Infinity;
 
-                task.sourceEvents!.forEach((source) => {
+                task.sourceEvents?.forEach((source) => {
                   const segmentPosition =
                     (source.originalCount / maxCount) * 100;
                   const distance = Math.abs(mouseX - segmentPosition);
-                  if (distance < closestDistance && distance < 8) {
-                    // 8% threshold
+                  if (distance < closestDistance && distance < 5) {
+                    // 5% threshold for more precise hovering
                     closestDistance = distance;
-                    closestSource = source as TaskSource;
+                    closestSourceKey = `${source.eventId}-${source.originalCount}`;
                   }
                 });
 
-                setHoveredSegment(
-                  closestSource ? (closestSource as TaskSource).eventId : null,
-                );
+                // Only set hovered segment if we found a close enough marker
+                setHoveredSegment(closestSourceKey);
               }}
               onMouseLeave={() => setHoveredSegment(null)}
             />
 
             {/* Marker lines */}
-            {task.sourceEvents!.map((source, index) => {
+            {task.sourceEvents?.map((source) => {
               const segmentPosition = (source.originalCount / maxCount) * 100;
-              const isHovered = hoveredSegment === source.eventId;
+              const sourceKey = `${source.eventId}-${source.originalCount}`;
+              const isHovered = hoveredSegment === sourceKey;
 
               return (
-                <div key={source.eventId}>
+                <div key={sourceKey}>
                   {/* Segment marker line */}
                   <div
                     className={`absolute top-0 w-0.5 h-full z-5 transition-all duration-200 ${
@@ -129,13 +129,14 @@ export const TaskCounter: React.FC<TaskCounterProps> = ({
 
             {/* Labels at marker positions */}
             <div className="absolute top-full mt-1 w-full">
-              {task.sourceEvents!.map((source, index) => {
+              {task.sourceEvents?.map((source) => {
                 const segmentPosition = (source.originalCount / maxCount) * 100;
-                const isHovered = hoveredSegment === source.eventId;
+                const sourceKey = `${source.eventId}-${source.originalCount}`;
+                const isHovered = hoveredSegment === sourceKey;
 
                 return (
                   <div
-                    key={`label-${source.eventId}`}
+                    key={`label-${sourceKey}`}
                     className={`absolute text-xs transition-all duration-200 ${
                       isHovered
                         ? 'font-semibold text-blue-600'

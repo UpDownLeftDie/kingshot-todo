@@ -1,5 +1,5 @@
 import { type Event } from '../../types/task';
-import { type GameTaskId } from '../daily-tasks';
+import { type TaskType } from '../../types/taskTypes';
 
 export const lostKingdomEvent: Event = {
   id: 'lost-kingdom',
@@ -23,7 +23,8 @@ export const lostKingdomEvent: Event = {
       ],
       tasks: [
         {
-          id: 'hunt-beasts' as GameTaskId, // This will consolidate with other hunt-beasts tasks
+          id: 'hunt-beasts-15-day1',
+          type: 'hunt-beasts' as TaskType, // This will consolidate with other hunt-beasts tasks
           name: 'Defeat ${count} Beasts',
           description: 'Rewards at 5 and ${count} beasts.',
           category: 'combat',
@@ -31,7 +32,8 @@ export const lostKingdomEvent: Event = {
           count: 15,
         },
         {
-          id: 'gather-resources' as GameTaskId, // This will consolidate with other gather-resources tasks
+          id: 'gather-resources-10m-day1',
+          type: 'gather-resources' as TaskType, // This will consolidate with other gather-resources tasks
           name: 'Gather ${count} Resources',
           description: 'Rewards at 3000000 and ${count} resources gathered.',
           category: 'resources',
@@ -47,7 +49,8 @@ export const lostKingdomEvent: Event = {
       day: 2,
       tasks: [
         {
-          id: 'hunt-beasts' as GameTaskId, // Higher count - this will be used for consolidation
+          id: 'hunt-beasts-25-day2',
+          type: 'hunt-beasts' as TaskType, // Higher count - this will be used for consolidation
           name: 'Defeat ${count} Beasts',
           description: 'Rewards at 10 and ${count} beasts.',
           category: 'combat',
@@ -55,7 +58,8 @@ export const lostKingdomEvent: Event = {
           count: 25, // Higher than day 1, so this will be the consolidated count
         },
         {
-          id: 'epic-recruitment' as GameTaskId,
+          id: 'epic-recruitment-30',
+          type: 'epic-recruitment' as TaskType,
           name: 'Recruit ${count} Epic Heroes',
           description:
             'Gold keys. Rewards at 10 and ${count} epic heroes recruited.',
@@ -72,7 +76,8 @@ export const lostKingdomEvent: Event = {
       day: 3,
       tasks: [
         {
-          id: 'gather-resources' as GameTaskId, // Much higher count - this will be used for consolidation
+          id: 'gather-resources-50m-day3',
+          type: 'gather-resources' as TaskType, // Much higher count - this will be used for consolidation
           name: 'Gather ${count} Resources',
           description: 'Massive resource gathering for final push.',
           category: 'resources',
@@ -80,7 +85,8 @@ export const lostKingdomEvent: Event = {
           count: 50000000, // Much higher than day 1, so this will be the consolidated count
         },
         {
-          id: 'advanced-recruitment' as GameTaskId,
+          id: 'advanced-recruitment-50',
+          type: 'advanced-recruitment' as TaskType,
           name: 'Recruit ${count} Advanced Heroes',
           description: 'Silver keys.',
           category: 'heroes',

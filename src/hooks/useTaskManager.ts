@@ -175,8 +175,8 @@ export const useTaskManager = () => {
       const taskMap = new Map<string, ConsolidatedTask>();
 
       tasks.forEach((task) => {
-        // Use task.id as the consolidation key
-        const key = task.id;
+        // Use type as consolidation key - tasks with same type consolidate (highest count wins)
+        const key = task.type;
 
         const sourceInfo: TaskSource = {
           eventId: task.eventId || 'daily',
@@ -271,7 +271,7 @@ export const useTaskManager = () => {
   const getProgress = useCallback(() => {
     const currentTasks = getCurrentTasks();
     const completedCount = currentTasks.filter((task) =>
-      isTaskCompleted(task.id),
+      isTaskCompleted(task.type),
     ).length;
 
     return {

@@ -1,10 +1,15 @@
+import type { NoticeType, TaskType } from './taskTypes';
+
 export interface Task {
-  id: string; // Will be constrained by GameTaskId in implementation
+  id?: string; // Optional unique identifier for specific task instances
+  type: TaskType; // Task type for consolidation (e.g., 'alliance-contributions', 'defeat-terror')
   name: string;
   description: string;
   category: string;
   priority: 'low' | 'medium' | 'high';
   count?: number;
+  points?: number;
+  implies?: string[]; // Task types that are automatically completed when this task is completed
 }
 
 export interface SubEvent {
@@ -30,7 +35,7 @@ export interface Event {
 export interface Notice {
   id: string;
   message: string;
-  type: string;
+  type: NoticeType;
   priority: 'low' | 'medium' | 'high';
 }
 
@@ -61,6 +66,6 @@ export interface TaskSource {
 }
 
 export interface ConsolidatedTask extends Task {
-  sourceEvents: TaskSource[];
+  sourceEvents?: TaskSource[];
   maxCount?: number;
 }

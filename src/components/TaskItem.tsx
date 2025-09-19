@@ -114,9 +114,16 @@ export const TaskItem: React.FC<TaskItemProps> = ({
             )}
             {task.sourceEvents && task.sourceEvents.length > 0 && (
               <div className="flex flex-wrap gap-1">
-                {task.sourceEvents.map((source, index) => (
+                {Array.from(
+                  new Map(
+                    task.sourceEvents.map((source) => [
+                      source.isDaily ? 'Daily' : source.eventName,
+                      source,
+                    ]),
+                  ).values(),
+                ).map((source) => (
                   <span
-                    key={`${source.eventId}-${index}`}
+                    key={`${source.eventId}-${source.originalCount}`}
                     className={`text-xs px-2 py-1 rounded-full ${
                       source.isDaily
                         ? 'bg-blue-100 text-blue-800'
