@@ -80,7 +80,7 @@ Edit `src/data/` files to add new daily tasks or events:
       "id": "new-event",
       "name": "Event Name",
       "description": "Event description",
-      "duration": "daily|weekly|limited",
+      "duration": 1|2|3|4...,
       "tasks": [...]
     }
   ]

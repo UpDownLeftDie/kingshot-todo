@@ -10,6 +10,7 @@ export interface Task {
   count?: number;
   points?: number;
   implies?: string[]; // Task types that are automatically completed when this task is completed
+  isPointAccumulation?: boolean; // If true, task shows points for each completion rather than being a single completable task
 }
 
 export interface SubEvent {
@@ -25,11 +26,10 @@ export interface Event {
   id: string;
   name: string;
   description: string;
-  duration: 'daily' | 'weekly' | 'limited';
-  isMultiDay?: boolean;
+  duration?: number; // For events that span X days to complete tasks (mutually exclusive with subEvents)
   notices?: Notice[];
   tasks?: Task[];
-  subEvents?: SubEvent[];
+  subEvents?: SubEvent[]; // For events with tasks for each day (mutually exclusive with duration)
 }
 
 export interface Notice {

@@ -14,9 +14,17 @@ type JsonTaskData = {
   dailyTasks: Array<Omit<Task, 'priority'> & { priority: string }>;
   events: Array<
     Omit<Event, 'duration'> & {
-      duration: string;
-      tasks: Array<Omit<Task, 'priority'> & { priority: string }>;
+      duration?: number;
+      tasks?: Array<Omit<Task, 'priority'> & { priority: string }>;
       notices?: Array<Omit<Notice, 'priority'> & { priority: string }>;
+      subEvents?: Array<{
+        id: string;
+        name: string;
+        description: string;
+        day: number;
+        notices?: Array<Omit<Notice, 'priority'> & { priority: string }>;
+        tasks: Array<Omit<Task, 'priority'> & { priority: string }>;
+      }>;
     }
   >;
 };
@@ -233,7 +241,7 @@ export const useTaskManager = () => {
     taskState.selectedEvents.forEach((eventId) => {
       const event = taskData.events.find((e) => e.id === eventId);
       if (event) {
-        if (event.isMultiDay && event.subEvents) {
+        if (event.subEvents) {
           // Multi-day event: use selected sub-event
           const selectedSubEventId = taskState.selectedSubEvents[eventId];
           if (selectedSubEventId) {
@@ -297,13 +305,29 @@ export const useTaskManager = () => {
 
     taskState.selectedEvents.forEach((eventId) => {
       const event = data.events.find((e) => e.id === eventId);
-      if (event && event.notices) {
-        notices.push(...event.notices);
+      if (event) {
+        // Add notices from the main event
+        if (event.notices) {
+          notices.push(...event.notices);
+        }
+
+        // Add notices from selected subEvents
+        if (event.subEvents) {
+          const selectedSubEventId = taskState.selectedSubEvents[eventId];
+          if (selectedSubEventId) {
+            const selectedSubEvent = event.subEvents.find(
+              (subEvent) => subEvent.id === selectedSubEventId,
+            );
+            if (selectedSubEvent && selectedSubEvent.notices) {
+              notices.push(...selectedSubEvent.notices);
+            }
+          }
+        }
       }
     });
 
     return notices;
-  }, [taskState.selectedEvents]);
+  }, [taskState.selectedEvents, taskState.selectedSubEvents]);
 
   return {
     taskState,

@@ -49,19 +49,32 @@ Tasks with the **same ID** automatically consolidate:
 
 ### 3. **Multi-Day Event Support**
 
-Events can have sub-events (only one active at a time):
+There are two types of multi-day events:
+
+**Duration-based events**: You have X days to complete all tasks
+
+```typescript
+{
+  id: 'cesares-fury',
+  duration: 3,  // 3 days to complete all tasks
+  tasks: [...]
+}
+```
+
+**Day-specific events**: Different tasks for each day (only one day active at a time)
 
 ```typescript
 {
   id: 'lost-kingdom',
-  isMultiDay: true,
-  subEvents: [
+  subEvents: [  // No duration property needed
     { day: 1, tasks: [...] },
     { day: 2, tasks: [...] },
     { day: 3, tasks: [...] }
   ]
 }
 ```
+
+**Important**: Events should use either `duration` OR `subEvents`, never both.
 
 ## Adding New Tasks
 
@@ -125,7 +138,7 @@ export const newEvent: Event = {
 export const multiDayEvent: Event = {
   id: 'multi-day-event',
   name: 'Multi Day Event',
-  isMultiDay: true,
+  duration: 2,
   subEvents: [
     {
       id: 'day-1',

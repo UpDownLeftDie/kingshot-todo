@@ -1,6 +1,6 @@
 import React from 'react';
 import { useTaskManager } from '../hooks/useTaskManager';
-import { EnhancedEventSelector } from './EnhancedEventSelector';
+import { EventSelector } from './EventSelector';
 import { NoticesPanel } from './NoticesPanel';
 import { ProgressBar } from './ProgressBar';
 import { TaskList } from './TaskList';
@@ -41,7 +41,7 @@ const TodoApp: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
           {/* Left Sidebar - Events */}
           <div className="lg:col-span-1">
-            <EnhancedEventSelector
+            <EventSelector
               events={taskData.events}
               selectedEvents={taskState.selectedEvents}
               selectedSubEvents={taskState.selectedSubEvents}

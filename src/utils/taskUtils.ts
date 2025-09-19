@@ -8,6 +8,8 @@ import { type ConsolidatedTask } from '../types/task';
  * - ${maxCount}: Maximum count required
  * - ${remaining}: How many more needed (maxCount - count)
  * - ${progress}: Progress percentage (0-100)
+ * - ${plural:word}: Pluralizes 'word' based on count (adds 's' if count !== 1)
+ * - ${count === 1 ? "" : "s"}: Direct pluralization expressions
  *
  * @param text - Text containing placeholders
  * @param task - Task object with count information
@@ -21,14 +23,25 @@ export const replaceTaskPlaceholders = (
 ): string => {
   const count = currentCount ?? task.count ?? 0;
 
-  return text
-    .replace(/\$\{count\}/g, String(count))
-    .replace(/\$\{maxCount\}/g, String(task.count || 0))
-    .replace(/\$\{remaining\}/g, String(Math.max(0, (task.count || 0) - count)))
-    .replace(
-      /\$\{progress\}/g,
-      String(Math.round((count / (task.count || 1)) * 100 || 0)),
-    );
+  return (
+    text
+      .replace(/\$\{count\}/g, String(count))
+      .replace(/\$\{maxCount\}/g, String(task.count || 0))
+      .replace(
+        /\$\{remaining\}/g,
+        String(Math.max(0, (task.count || 0) - count)),
+      )
+      .replace(
+        /\$\{progress\}/g,
+        String(Math.round((count / (task.count || 1)) * 100 || 0)),
+      )
+      // Handle pluralization expressions like ${count === 1 ? "" : "s"}
+      .replace(/\$\{count === 1 \? "" : "s"\}/g, count === 1 ? '' : 's')
+      // Handle word pluralization like ${plural:truck}
+      .replace(/\$\{plural:(\w+)\}/g, (_, word) => {
+        return count === 1 ? word : `${word}s`;
+      })
+  );
 };
 
 export const getTaskDisplayName = (task: ConsolidatedTask): string => {
